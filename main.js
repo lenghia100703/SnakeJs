@@ -18,7 +18,7 @@ class Food {
 
     }
     randomIndex(){
-        return Math.floor(Math.random() * 22);
+        return Math.floor(Math.random() * 21);
     }
     randomX() {
         return array[this.randomIndex()];
