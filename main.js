@@ -1,8 +1,10 @@
 const canvas = document.getElementById('screen');
+canvas.height = canvas.width = 500;
 const ctx = canvas.getContext('2d');
 const jump = 25;
+let score = 0;
 var key;
-const array = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500];
+
 
 class Pos {
     constructor(x, y){
@@ -17,14 +19,8 @@ class Food {
         this.y = y;
 
     }
-    randomIndex(){
-        return Math.floor(Math.random() * 21);
-    }
-    randomX() {
-        return array[this.randomIndex()];
-    }
-    randomY() {
-        return array[this.randomIndex()];
+    randomPos(){
+        return Math.floor(Math.random() * 500/25)*25;
     }
 
     clear(){
@@ -40,8 +36,8 @@ class Food {
     randomApple(){
         this.clear();
 
-        this.x = this.randomX();
-        this.y = this.randomY();
+        this.x = this.randomPos();
+        this.y = this.randomPos();
 
         this.drawApple();
 
@@ -56,6 +52,18 @@ class Snake {
             new Pos(225, 250),
             new Pos(200, 250),
         ]
+    }
+
+    checkDie(){
+        if (this.body[0].x >= canvas.width || this.body[0].x <= 0 || this.body[0].y >= canvas.height || this.body[0].y <= 0){
+            return false;
+        }
+        for (let i = this.body.length - 1; i >= 1; i-- ){
+            if (this.body[0].x == this.body[i].x && this.body[0].y == this.body[i].y){
+                return false;
+            }
+        }
+        return true;
     }
 
     
@@ -86,6 +94,7 @@ class Snake {
         if (key == 'd') { this.body[0].y -= jump };
         if (key == 'l') { this.body[0].x += jump };
         if (key == 'r') { this.body[0].x -= jump };
+        
 
         this.drawSnake();
     }
@@ -104,10 +113,14 @@ class Snake {
 
     checkEat(food){
         if (food.x == this.body[0].x && food.y == this.body[0].y){
+            score ++;
             return true;
         }
         return false;
     }
+
+    
+
 }
 
 
@@ -125,8 +138,13 @@ setInterval(() =>{
     if (player.checkEat(food) === true){
         player.bodyUpdate();
         food.randomApple();
+        document.getElementById("heading").innerHTML = `SCORE: ${score}`;
     }
-}, 150);
+    // if(player.checkDie() == false){
+    //     alert('die');
+    // }
+}, 100);
+
 
 document.onkeydown = function(e){
     if (e.keyCode == 83 && key != 'd') { key = 'u' };
@@ -134,6 +152,10 @@ document.onkeydown = function(e){
     if (e.keyCode == 68 && key != 'r') { key = 'l' };
     if (e.keyCode == 65 && key != 'l') { key = 'r' };
 }
+
+
+
+
 
 
 
