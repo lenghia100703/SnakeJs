@@ -3,6 +3,9 @@ canvas.height = canvas.width = 500;
 const ctx = canvas.getContext('2d');
 const jump = 25;
 let score = 0;
+let speed = 10;
+let hp = 20;
+
 var key;
 
 
@@ -63,6 +66,7 @@ class Snake {
                 return false;
             }
         }
+        
         return true;
     }
 
@@ -92,7 +96,6 @@ class Snake {
             }
         }
         
-        
         if (key == 'u') { this.body[0].y += jump };
         if (key == 'd') { this.body[0].y -= jump };
         if (key == 'l') { this.body[0].x += jump };
@@ -117,6 +120,8 @@ class Snake {
     checkEat(food){
         if (food.x == this.body[0].x && food.y == this.body[0].y){
             score ++;
+            speed ++;
+            
             return true;
         }
         return false;
@@ -145,7 +150,7 @@ function drawGame(){
     if (player.checkDie() == false){
         return;
     }
-    setTimeout(drawGame, 100);
+    setTimeout(drawGame, 2000/speed);
 }
 
 drawGame();
@@ -159,6 +164,18 @@ document.onkeydown = function(e){
     if (e.keyCode == 68 && key != 'r') { key = 'l' };
     if (e.keyCode == 65 && key != 'l') { key = 'r' };
 }
+
+document.getElementById("result").innerHTML = 'You die :((';
+let form = document.querySelector('.js-form');
+
+
+function opentab(){
+    form.classList.add('open');
+}
+
+
+
+
 
 
 

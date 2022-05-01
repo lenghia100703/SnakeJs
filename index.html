@@ -6,25 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        #heading {
-            background-color: #000;
-            width: 496px;
-            height: 20px;
-            color:aliceblue;
-            border: solid 2px #333;
-            
-        }
-        #screen {
-            background-color: #000;
-            
-        }
-    </style>
-    
 </head>
 <body>
-    <div id="heading">SCORE: </div>
-    <canvas id="screen"  ></canvas> 
+    <div id="main">
+        <div id="heading">SCORE: </div>
+        <canvas id="screen"  ></canvas> 
+        <div class="end">
+            Hướng dẫn luật chơi
+            <ol>
+                <li>Di Chuyển bẳng các phím A, S, D, W</li>
+                <li>Khởi đầu không được sang trái (tức là ấn phím A)</li>
+                <li>Điểm số của bạn là số thức ăn con rắn ăn được</li>
+                <li>Mỗi lần ăn thì tốc độ game tăng lên 1 đơn vị</li>
+                <li>Khi bạn tông vào tường hoặc tự tông vào chính mình thì bạn thua và ấn F5 để chơi lại</li>
+            </ol>
+        </div>
+        <div class="form js-form">
+            <div class="form-container">
+                <p id="result" class="font"></p>
+                <button class="reload"onClick="window.location.reload();">Try again</button>
+            </div>
+        </div>
+    </div>
+    
     <script src="main.js"></script>
 </body>
 </html>
