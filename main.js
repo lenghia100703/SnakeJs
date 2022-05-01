@@ -55,7 +55,7 @@ class Snake {
     }
 
     checkDie(){
-        if (this.body[0].x >= canvas.width || this.body[0].x <= 0 || this.body[0].y >= canvas.height || this.body[0].y <= 0){
+        if (this.body[0].x >= canvas.width || this.body[0].x < 0 || this.body[0].y >= canvas.height || this.body[0].y < 0){
             return false;
         }
         for (let i = this.body.length - 1; i >= 1; i-- ){
@@ -85,10 +85,13 @@ class Snake {
     move(){
         this.clear();
         
-        for (let i = this.body.length - 1; i >= 1; i--){
-            this.body[i].x = this.body[i - 1].x;
-            this.body[i].y = this.body[i - 1].y;
+        if (key == 'u' || key == 'd' || key == 'l' || key == 'r'){
+            for (let i = this.body.length - 1; i >= 1; i--){
+                this.body[i].x = this.body[i - 1].x;
+                this.body[i].y = this.body[i - 1].y;
+            }
         }
+        
         
         if (key == 'u') { this.body[0].y += jump };
         if (key == 'd') { this.body[0].y -= jump };
@@ -131,19 +134,23 @@ player.drawSnake();
 let food = new Food();
 food.randomApple();
 
-
-
-setInterval(() =>{
+function drawGame(){
+    
     player.move();
     if (player.checkEat(food) === true){
         player.bodyUpdate();
         food.randomApple();
         document.getElementById("heading").innerHTML = `SCORE: ${score}`;
     }
-    // if(player.checkDie() == false){
-    //     alert('die');
-    // }
-}, 100);
+    if (player.checkDie() == false){
+        return;
+    }
+    setTimeout(drawGame, 100);
+}
+
+drawGame();
+
+
 
 
 document.onkeydown = function(e){
